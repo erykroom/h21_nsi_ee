@@ -144,7 +144,7 @@ def jooned_y(cn6_x, decl_x):
 def heatmap(cn6_x, fl_x):
     # Title
     st.subheader("The most important partner country by trade flow in 2020")
-    x = pd.read_csv('data/heatmap1.csv', sep=';')
+    x = pd.read_csv('data/heatmap2.csv', sep=';')
     x['FLOWSUM'] = x['FLOWSUM'].astype(int)
     x = remap_cn6(x)
     x = x[x["cn6"] == cn6_x]
@@ -153,7 +153,10 @@ def heatmap(cn6_x, fl_x):
     base = alt.Chart(source).encode(
         alt.X('DECLARANT:O', scale=alt.Scale(paddingInner=0)),
         alt.Y('MONTH:O', scale=alt.Scale(paddingInner=0)),
-        tooltip=[alt.Tooltip('FLOWSUM', title='Flow sum (EUR)')])
+        tooltip=[
+            alt.Tooltip('PARTNERNAME', title='Partner'),
+            alt.Tooltip('FLOWSUM', title='Flow sum (EUR)')
+        ])
     heatmap = base.mark_rect().encode(
         color=alt.Color('PARTNER:O', scale=alt.Scale(scheme='category20'), legend=None))
     text = base.mark_text(baseline='middle').encode(text='PARTNER:O')
