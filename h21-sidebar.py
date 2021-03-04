@@ -4,6 +4,38 @@ import networkx as nx
 import altair as alt
 from vega_datasets import data
 
+eu_dict = {
+'AT':'Austria',
+'BE':'Belgium',
+'BG':'Bulgaria',
+'HR':'Croatia',
+'CY':'Cyprus',
+'CZ':'Czech Republic',
+'DK':'Denmark',
+'EE':'Estonia',
+'FI':'Finland',
+'FR':'France',
+'DE':'Germany',
+'GR':'Greece',
+'HU':'Hungary',
+'IE':'Ireland',
+'IT':'Italy',
+'LV':'Latvia',
+'LT':'Lithuania',
+'LU':'Luxembourg',
+'MT':'Malta',
+'NL':'Netherlands',
+'PL':'Poland',
+'PT':'Portugal',
+'RO':'Romania',
+'SK':'Slovakia',
+'SI':'Slovenia',
+'ES':'Spain',
+'SE':'Sweden'
+}
+
+def countrylist(opt):
+    return eu_dict[opt]
 
 def remap_cn6(x):
     di = {380894: "Disinfectants",
@@ -61,7 +93,7 @@ def tulbad_2(cn6_x, decl_x):
 
 def jooned_m(cn6_x, fl_x, decl_x):
     # Title
-    st.subheader("Export/import value in 2020")
+    st.subheader("Trade value in 2019-2020")
     x = pd.read_csv('data/jooned.csv', sep=';')
     x = remap_cn6(x)
     x = x[x["cn6"] == cn6_x]
@@ -80,7 +112,7 @@ def jooned_m(cn6_x, fl_x, decl_x):
     st.altair_chart(chart)
     # Description
     st.markdown("""
-    The graph presents trade values in EUR by flow, country and product in 2020.
+    The graph presents trade values in EUR by flow, country and product in 2019/20.
     Data: [Comext](https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&dir=comext) montly data.
                 """)
 
@@ -217,18 +249,13 @@ def main():
     cn6_choice = st.sidebar.selectbox('Select product category:', cn6)
     fl = ['Import', 'Export']
     fl_choice = st.sidebar.selectbox('Select import or export:', fl)
-    decl = ['DE', 'NL', 'BE', 'FR', 'IT', 'HU', 'ES', 'AT', 'PL', 'SE', 'LT', 'LU',
-            'CZ', 'RO', 'FI', 'LV', 'DK', 'IE', 'PT', 'SK', 'GR', 'SI', 'BG', 'HR',
-            'EE', 'CY', 'MT']
-    decl_choice = st.sidebar.selectbox('Select country:', decl)
+    decl_choice = st.sidebar.selectbox('Select country:', options=list(eu_dict.keys()), format_func=countrylist)
     kaart_plot(cn6_choice)
     tabel(cn6_choice, decl_choice, fl_choice)
     heatmap(cn6_choice, fl_choice)
     jooned_m(cn6_choice, fl_choice, decl_choice)
     jooned_y(cn6_choice, decl_choice)
     tulbad_2(cn6_choice, decl_choice)
-
-    
 
 
 if __name__ == '__main__':
