@@ -82,7 +82,11 @@ def tulbad_2(cn6_x, decl_x):
             tooltip=[
                 alt.Tooltip('VALUE', title='VALUE IN EUR')
             ]
-)
+    ).configure_axis(
+    labelFontSize=12,
+    titleFontSize=15,
+    labelAngle=0
+    )
 
     ).properties(width=950, height=200)
     st.altair_chart(chart)
@@ -108,7 +112,15 @@ def jooned_m(cn6_x, fl_x, decl_x):
         tooltip=[
             alt.Tooltip('SUM1000:O', title='FLOW SUM')
         ]
-    ).properties(width=1000, height=500))
+    ).configure_axis(
+    labelFontSize=12,
+    titleFontSize=15,
+    labelAngle=0
+    ).properties(width=1000, height=500).configure_legend(
+    titleFontSize=15,
+    labelFontSize=15
+    ) 
+    )
     st.altair_chart(chart)
     # Description
     st.markdown("""
@@ -132,7 +144,14 @@ def jooned_y(cn6_x, decl_x):
         tooltip=[
             alt.Tooltip('PROPORTION', title='Proportion (%)')
         ]
-    ).properties(width=1000, height=500)
+    ).configure_axis(
+    labelFontSize=12,
+    titleFontSize=15,
+    labelAngle=0
+    ).properties(width=1000, height=500).configure_legend(
+    titleFontSize=15,
+    labelFontSize=15
+    ) 
     st.altair_chart(chart2)
     # Description
     st.markdown("""
@@ -160,7 +179,11 @@ def heatmap(cn6_x, fl_x):
     heatmap = base.mark_rect().encode(
         color=alt.Color('PARTNER:O', scale=alt.Scale(scheme='category20'), legend=None))
     text = base.mark_text(baseline='middle').encode(text='PARTNER:O')
-    chart = (heatmap + text).properties(width=940, height=500)
+    chart = (heatmap + text).configure_axis(
+    labelFontSize=12,
+    titleFontSize=15,
+    labelAngle=0
+    ).properties(width=940, height=500)
     st.altair_chart(chart)
     # Description
     st.markdown("""
